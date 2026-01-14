@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 
+namespace ToyPlanet.Web.Controllers;
+
 [Authorize]
 public class CartController : Controller
 {
@@ -15,18 +17,23 @@ public class CartController : Controller
     public async Task<IActionResult> Index()
     {
         var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
-        var cartItems = await _db.CartItems.Where(c => c.UserId == userId).ToListAsync();
-        ViewBag.CartItems = cartItems;
-        return View();
+        var cartItems = await _db.CartItems
+            .Include(c => c.Toy)
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
+        return View(cartItems);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(int id)
     {
         var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+        var toy = await _db.Toys.FindAsync(id);
+        if (toy == null) return NotFound();
+        
         var item = await _db.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ToyId == id);
         if (item == null)
-            _db.CartItems.Add(new CartItem { UserId = userId, ToyId = id, Quantity = 1 });
+            _db.CartItems.Add(new CartItem { UserId = userId, ToyId = id, Quantity = 1, Toy = toy });
         else
             item.Quantity++;
         await _db.SaveChangesAsync();
@@ -48,21 +55,74 @@ public class CartController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> RemoveAll(int id)
+    {
+        var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+        var item = await _db.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ToyId == id);
+        if (item != null)
+        {
+            _db.CartItems.Remove(item);
+            await _db.SaveChangesAsync();
+        }
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Checkout()
     {
         var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+        var cartItems = await _db.CartItems
+            .Include(c => c.Toy)
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
+        if (!cartItems.Any())
+        {
+            TempData["Error"] = "Ваш кошик порожній";
+            return RedirectToAction("Index");
+        }
+        return View(cartItems);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Checkout(string fullName, string address, string postalCode, string phone)
+    {
+        var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
         var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        var cartItems = await _db.CartItems.Where(c => c.UserId == userId).ToListAsync();
+        var cartItems = await _db.CartItems
+            .Include(c => c.Toy)
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
+        
         if (!cartItems.Any()) return RedirectToAction("Index");
+        
         var order = new Order { UserId = userId, UserEmail = userEmail, CreatedAt = DateTime.UtcNow };
         foreach (var ci in cartItems)
         {
-            order.Items.Add(new OrderItem(new Toy { Id = ci.ToyId }, ci.Quantity));
+            if (ci.Toy != null)
+            {
+                order.Items.Add(new OrderItem(ci.Toy, ci.Quantity));
+            }
         }
+        
         _db.Orders.Add(order);
         _db.CartItems.RemoveRange(cartItems);
         await _db.SaveChangesAsync();
-        TempData["OrderSuccess"] = true;
-        return RedirectToAction("Index");
+        
+        TempData["OrderId"] = order.Id.ToString();
+        TempData["FullName"] = fullName;
+        TempData["Address"] = address;
+        TempData["PostalCode"] = postalCode;
+        TempData["Phone"] = phone;
+        
+        return RedirectToAction("Success");
+    }
+
+    public IActionResult Success()
+    {
+        if (TempData["OrderId"] == null)
+        {
+            return RedirectToAction("Index", "Catalog");
+        }
+        return View();
     }
 }

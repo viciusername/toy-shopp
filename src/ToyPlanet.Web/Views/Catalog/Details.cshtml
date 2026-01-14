@@ -1,15 +1,31 @@
 @model int
 @{
-    ViewData["Title"] = $"Пони #{Model}";
+    ViewData["Title"] = $"Поні #{Model}";
+    var prices = new Dictionary<int, int> { {1, 1990}, {2, 2490}, {3, 2290}, {4, 2590}, {5, 2990}, {6, 3990} };
+    var price = prices.ContainsKey(Model) ? prices[Model] : 1990;
+    var descriptions = new Dictionary<int, string> {
+        {1, "Чарівна пастельна поні з м'якою гривою. Ідеальна для колекції!"},
+        {2, "Пастельна поні з блискучою гривою і хвостом. Улюблениця дітей!"},
+        {3, "Яскрава поні з унікальним забарвленням. Чудовий подарунок для колекціонера!"},
+        {4, "Поні із золотистою гривою та добрим поглядом. Для найменших!"},
+        {5, "Ексклюзивна поні з райдужною гривою. Обмежена серія!"},
+        {6, "Найрідкісніша поні в колекції ToyPlanet. Мрія кожної дитини!"}
+    };
+    var description = descriptions.ContainsKey(Model) ? descriptions[Model] : "Чудова поні з колекції ToyPlanet!";
 }
 <div class="text-center">
-    <h2>Пони @Model</h2>
-    <img src="/images/pony@Model.png" class="img-fluid mb-3" style="max-width:350px;">
-    <div class="card p-3 mx-auto" style="max-width:400px;">
-        <h4 class="mb-2" style="color:#e75480;">Описание</h4>
-        <p>Это пони номер @Model из коллекции ToyPlanet.<br>Пастельные цвета, мягкая грива, идеальна для подарка!</p>
-        <h5 class="mt-3">Цена: <span style="color:#a64ca6;">@((Model * 1000) + 990) ₽</span></h5>
-        <a href="#" class="btn btn-primary mt-3">В корзину</a>
+    <h2 style="color:#e75480;">Поні @Model</h2>
+    <img src="/images/pony@(Model).png" class="img-fluid mb-3" style="max-width:350px; border-radius:12px; box-shadow:0 2px 8px #e75480;">
+    <div class="card p-4 mx-auto" style="max-width:450px; border-radius:12px; box-shadow:0 2px 8px rgba(231, 84, 128, 0.2);">
+        <h4 class="mb-3" style="color:#e75480;">Опис</h4>
+        <p style="font-size:1.1rem;">@description</p>
+        <h5 class="mt-3">Ціна: <span style="color:#a64ca6; font-size:1.5rem; font-weight:bold;">@price ₴</span></h5>
+        <form method="post" action="/Cart/Add" class="mt-3">
+            <input type="hidden" name="id" value="@Model" />
+            <button type="submit" class="btn btn-primary btn-lg w-100" style="background:#e75480; border:none; padding:12px;">
+                🛒 До кошика
+            </button>
+        </form>
     </div>
-    <a href="/Catalog" class="btn btn-link mt-4">← Назад в каталог</a>
+    <a href="/Catalog" class="btn btn-link mt-4">← Назад до каталогу</a>
 </div>

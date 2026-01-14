@@ -1,0 +1,86 @@
+@model List<ToyPlanet.Core.CartItem>
+@{
+    ViewData["Title"] = "Оформлення замовлення";
+    var total = Model.Sum(item => item.Toy != null ? item.Toy.Price * item.Quantity : 0);
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 style="color:#e75480;">📦 Оформлення замовлення</h2>
+            
+            <div class="card mt-4 p-4" style="border-radius:12px; box-shadow:0 2px 8px rgba(231, 84, 128, 0.2);">
+                <h4 class="mb-4" style="color:#a64ca6;">Дані для доставки</h4>
+                
+                <form method="post" asp-action="Checkout">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Повне ім'я <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" required placeholder="Введіть ваше повне ім'я">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Адреса доставки <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required placeholder="Введіть повну адресу доставки"></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="postalCode" class="form-label">Поштовий індекс <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="postalCode" name="postalCode" required placeholder="Наприклад: 01001" pattern="[0-9]{5}">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Номер телефону <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="+380XXXXXXXXX" pattern="[\+]?[0-9]{10,13}">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success btn-lg w-100" style="background:#4caf50; border:none; padding:12px;">
+                            ✅ Підтвердити замовлення
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card p-4" style="background:#fff6fa; border-radius:12px; box-shadow:0 2px 8px rgba(231, 84, 128, 0.2);">
+                <h4 style="color:#e75480;">Ваше замовлення</h4>
+                <hr>
+                
+                @foreach (var item in Model)
+                {
+                    if (item.Toy != null)
+                    {
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <strong>@item.Toy.Name</strong>
+                                <br>
+                                <small class="text-muted">Кількість: @item.Quantity</small>
+                            </div>
+                            <div class="text-end">
+                                <strong>@(item.Toy.Price * item.Quantity) ₴</strong>
+                            </div>
+                        </div>
+                    }
+                }
+                
+                <hr>
+                <div class="d-flex justify-content-between mb-2">
+                    <strong>Доставка:</strong>
+                    <span class="text-success">Безкоштовно</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h5 style="color:#e75480;">Загальна сума:</h5>
+                    <h5 style="color:#e75480;"><strong>@total ₴</strong></h5>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <a href="/Cart" class="btn btn-outline-secondary w-100">← Повернутись до кошика</a>
+            </div>
+        </div>
+    </div>
+</div>

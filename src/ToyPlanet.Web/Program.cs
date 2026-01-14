@@ -113,6 +113,26 @@ builder.Services.AddHostedService<ToyPlanet.Web.OpenIddictWorker>();
 
 var app = builder.Build();
 
+// Ініціалізація бази даних з тестовими даними
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ToyPlanetDbContext>();
+    db.Database.EnsureCreated();
+    
+    // Додаємо товари якщо їх ще немає
+    if (!db.Toys.Any())
+    {
+        db.Toys.AddRange(
+            new ToyPlanet.Core.Toy { Id = 1, Name = "Поні 1", Price = 1990 },
+            new ToyPlanet.Core.Toy { Id = 2, Name = "Поні 2", Price = 2490 },
+            new ToyPlanet.Core.Toy { Id = 3, Name = "Поні 3", Price = 2290 },
+            new ToyPlanet.Core.Toy { Id = 4, Name = "Поні 4", Price = 2590 },
+            new ToyPlanet.Core.Toy { Id = 5, Name = "Поні 5", Price = 2990 },
+            new ToyPlanet.Core.Toy { Id = 6, Name = "Поні 6", Price = 3990 }
+        );
+        db.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

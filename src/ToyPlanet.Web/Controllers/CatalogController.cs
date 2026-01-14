@@ -1,20 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using ToyPlanet.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToyPlanet.Web.Controllers;
 
 [Authorize]
 public class CatalogController : Controller
 {
+    private readonly ToyPlanetDbContext _db;
+    
+    public CatalogController(ToyPlanetDbContext db)
+    {
+        _db = db;
+    }
+    
     public IActionResult Index()
     {
-        // Здесь будет список товаров
         return View();
     }
     
     public IActionResult Details(int id)
     {
-        // Здесь будет просмотр товара по id
-        return View();
+        if (id < 1 || id > 6) return NotFound();
+        return View(id);
     }
 }

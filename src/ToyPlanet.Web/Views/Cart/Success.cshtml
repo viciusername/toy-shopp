@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Замовлення оформлено";
+    var orderId = TempData["OrderId"]?.ToString();
+    var fullName = TempData["FullName"]?.ToString();
+    var address = TempData["Address"]?.ToString();
+    var postalCode = TempData["PostalCode"]?.ToString();
+    var phone = TempData["Phone"]?.ToString();
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-4">
+                <img src="https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif" alt="Success" style="max-width:300px; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px #4caf50; margin-bottom:24px;">
+            </div>
+            
+            <div class="card p-5 text-center" style="border-radius:16px; box-shadow:0 4px 12px rgba(76, 175, 80, 0.2); border:3px solid #4caf50;">
+                <div class="mb-4">
+                    <div style="font-size: 5rem; color:#4caf50;">✅</div>
+                    <h1 class="mt-3" style="color:#4caf50; font-weight:bold;">Успіх!</h1>
+                    <h4 class="text-muted">Ваше замовлення успішно оформлено</h4>
+                </div>
+                
+                <div class="alert alert-success" style="background:#f1f8f4; border-color:#4caf50;">
+                    <strong>Номер замовлення:</strong> 
+                    <code style="font-size:1.1rem;">@orderId</code>
+                </div>
+                
+                <div class="text-start mt-4 p-4" style="background:#fff6fa; border-radius:12px;">
+                    <h5 style="color:#e75480; margin-bottom:20px;">📋 Деталі доставки:</h5>
+                    
+                    <div class="mb-3">
+                        <strong style="color:#a64ca6;">Одержувач:</strong><br>
+                        <span style="font-size:1.1rem;">@fullName</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <strong style="color:#a64ca6;">Адреса доставки:</strong><br>
+                        <span style="font-size:1.1rem;">@address</span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong style="color:#a64ca6;">Поштовий індекс:</strong><br>
+                            <span style="font-size:1.1rem;">@postalCode</span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <strong style="color:#a64ca6;">Телефон:</strong><br>
+                            <span style="font-size:1.1rem;">@phone</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3" style="background:#e3f2fd; border-radius:8px; border-left:4px solid #2196f3;">
+                    <p class="mb-0" style="color:#1976d2;">
+                        <strong>ℹ️ Що далі?</strong><br>
+                        Ми відправимо підтвердження на вашу електронну пошту. 
+                        Очікуваний час доставки: 3-5 робочих днів.
+                    </p>
+                </div>
+                
+                <div class="mt-5">
+                    <a href="/Catalog" class="btn btn-primary btn-lg mx-2" style="background:#e75480; border:none; padding:12px 30px;">
+                        🛍️ Продовжити покупки
+                    </a>
+                    <a href="/Orders" class="btn btn-outline-secondary btn-lg mx-2" style="padding:12px 30px;">
+                        📦 Мої замовлення
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="text-muted">Дякуємо за покупку в ToyPlanet! 🎉</p>
+            </div>
+        </div>
+    </div>
+</div>
