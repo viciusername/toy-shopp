@@ -7,6 +7,13 @@
 let cart = JSON.parse(localStorage.getItem('toyShopCart')) || [];
 let products = [];
 
+// Helper function to escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Update cart display on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateCartDisplay();
@@ -52,11 +59,14 @@ function displayProducts(productsToDisplay) {
     
     productGrid.innerHTML = productsToDisplay.map(product => {
         const escapedName = product.name.replace(/'/g, "\\'");
+        const safeImage = escapeHtml(product.image);
+        const safeName = escapeHtml(product.name);
+        const safeDescription = escapeHtml(product.description);
         return `
             <div class="product-card">
-                <img src="${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p class="description">${product.description}</p>
+                <img src="${safeImage}" alt="${safeName}">
+                <h3>${safeName}</h3>
+                <p class="description">${safeDescription}</p>
                 <p class="price">${product.price} грн</p>
                 <button class="add-to-cart" onclick="addToCart('${escapedName}', ${product.price})">
                     Додати в кошик
@@ -133,10 +143,11 @@ function updateCartDisplay() {
     } else {
         cartItems.innerHTML = cart.map(item => {
             const escapedName = item.name.replace(/'/g, "\\'");
+            const safeName = escapeHtml(item.name);
             return `
                 <div class="cart-item">
                     <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-name">${safeName}</div>
                         <div class="cart-item-price">${item.price} грн</div>
                     </div>
                     <div class="cart-item-quantity">
