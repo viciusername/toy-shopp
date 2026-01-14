@@ -50,17 +50,20 @@ function displayProducts(productsToDisplay) {
         return;
     }
     
-    productGrid.innerHTML = productsToDisplay.map(product => `
-        <div class="product-card">
-            <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p class="description">${product.description}</p>
-            <p class="price">${product.price} грн</p>
-            <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price})">
-                Додати в кошик
-            </button>
-        </div>
-    `).join('');
+    productGrid.innerHTML = productsToDisplay.map(product => {
+        const escapedName = product.name.replace(/'/g, "\\'");
+        return `
+            <div class="product-card">
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="description">${product.description}</p>
+                <p class="price">${product.price} грн</p>
+                <button class="add-to-cart" onclick="addToCart('${escapedName}', ${product.price})">
+                    Додати в кошик
+                </button>
+            </div>
+        `;
+    }).join('');
 }
 
 // Toggle cart sidebar
@@ -128,20 +131,23 @@ function updateCartDisplay() {
     if (cart.length === 0) {
         cartItems.innerHTML = '<p class="empty-cart">Кошик порожній</p>';
     } else {
-        cartItems.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">${item.price} грн</div>
+        cartItems.innerHTML = cart.map(item => {
+            const escapedName = item.name.replace(/'/g, "\\'");
+            return `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${item.price} грн</div>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn" onclick="updateQuantity('${escapedName}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity('${escapedName}', 1)">+</button>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart('${escapedName}')">✕</button>
                 </div>
-                <div class="cart-item-quantity">
-                    <button class="quantity-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="quantity-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
-                </div>
-                <button class="remove-btn" onclick="removeFromCart('${item.name}')">✕</button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
     
     // Update total

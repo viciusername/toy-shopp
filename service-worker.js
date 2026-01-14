@@ -49,7 +49,11 @@ self.addEventListener('fetch', event => {
 
             return response;
           }
-        );
+        ).catch(error => {
+          console.error('Fetch failed:', error);
+          // Return offline page or cached response if available
+          return caches.match('/index.html');
+        });
       })
   );
 });
