@@ -22,6 +22,7 @@
         <h5 class="mt-3">Ціна: <span style="color:#a64ca6; font-size:1.5rem; font-weight:bold;">@price ₴</span></h5>
         <form method="post" action="/Cart/Add" class="mt-3">
             <input type="hidden" name="id" value="@Model" />
+            <input type="hidden" name="returnUrl" value="cart" />
             <button type="submit" class="btn btn-primary btn-lg w-100" style="background:#e75480; border:none; padding:12px;">
                 🛒 До кошика
             </button>

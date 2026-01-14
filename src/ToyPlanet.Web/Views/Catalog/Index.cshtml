@@ -1,6 +1,15 @@
 @{
     ViewData["Title"] = "Каталог товарів";
 }
+<div class="container">
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-3">@TempData["Error"]</div>
+}
 <div class="text-center mb-4">
     <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjNiaGNvenVxejR6ZGdrNmxycGo4emRnM2lrbmI0bnh4Z3Y2emJsMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DuQM1OeAP4poXTJTKa/giphy.gif" alt="catalog gif" style="max-width:300px; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px #e75480; margin-bottom:24px;" />
     <div style="max-width:600px; margin: 0 auto; background:#fff6fa; border-radius:12px; padding:18px; box-shadow:0 2px 8px #e75480; font-size:1.1rem;">
@@ -93,4 +102,5 @@
             </form>
         </div>
     </div>
+</div>
 </div>

@@ -25,19 +25,52 @@ public class CartController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(int id)
+    public async Task<IActionResult> Add(int id, string returnUrl = null)
     {
-        var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
-        var toy = await _db.Toys.FindAsync(id);
-        if (toy == null) return NotFound();
-        
-        var item = await _db.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ToyId == id);
-        if (item == null)
-            _db.CartItems.Add(new CartItem { UserId = userId, ToyId = id, Quantity = 1, Toy = toy });
-        else
-            item.Quantity++;
-        await _db.SaveChangesAsync();
-        return RedirectToAction("Index");
+        try
+        {
+            var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+            
+            if (userId == 0)
+            {
+                // Якщо користувач не авторизований, перенаправляємо на логін
+                return RedirectToAction("Login", "Account");
+            }
+            
+            var toy = await _db.Toys.FindAsync(id);
+            if (toy == null) 
+            {
+                TempData["Error"] = "Товар не знайдено";
+                return RedirectToAction("Index", "Catalog");
+            }
+            
+            var item = await _db.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ToyId == id);
+            if (item == null)
+            {
+                _db.CartItems.Add(new CartItem { UserId = userId, ToyId = id, Quantity = 1 });
+            }
+            else
+            {
+                item.Quantity++;
+            }
+            
+            await _db.SaveChangesAsync();
+            TempData["Success"] = $"Товар '{toy.Name}' додано до кошика!";
+            
+            // Якщо returnUrl вказаний і це "cart", перенаправляємо в кошик
+            if (!string.IsNullOrEmpty(returnUrl) && returnUrl.ToLower() == "cart")
+            {
+                return RedirectToAction("Index");
+            }
+            
+            // Інакше залишаємось у каталозі
+            return RedirectToAction("Index", "Catalog");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"Помилка додавання товару: {ex.Message}";
+            return RedirectToAction("Index", "Catalog");
+        }
     }
 
     [HttpPost]
