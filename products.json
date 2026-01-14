@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Плюшевий ведмедик",
+      "description": "М'який та приємний плюшевий ведмедик для дітей від 3 років",
+      "price": 299,
+      "image": "https://via.placeholder.com/200x200?text=Ведмедик",
+      "category": "М'які іграшки"
+    },
+    {
+      "id": 2,
+      "name": "Конструктор LEGO",
+      "description": "Великий набір LEGO з 500 деталей для творчості",
+      "price": 899,
+      "image": "https://via.placeholder.com/200x200?text=Конструктор",
+      "category": "Конструктори"
+    },
+    {
+      "id": 3,
+      "name": "Лялька Барбі",
+      "description": "Модна лялька Барбі з аксесуарами",
+      "price": 549,
+      "image": "https://via.placeholder.com/200x200?text=Лялька",
+      "category": "Ляльки"
+    },
+    {
+      "id": 4,
+      "name": "Машинка на радіокеруванні",
+      "description": "Швидка спортивна машинка з дистанційним керуванням",
+      "price": 1299,
+      "image": "https://via.placeholder.com/200x200?text=Машинка",
+      "category": "Транспорт"
+    },
+    {
+      "id": 5,
+      "name": "Пазл 1000 елементів",
+      "description": "Барвистий пазл з красивим пейзажем",
+      "price": 399,
+      "image": "https://via.placeholder.com/200x200?text=Пазл",
+      "category": "Настільні ігри"
+    },
+    {
+      "id": 6,
+      "name": "Футбольний м'яч",
+      "description": "Професійний футбольний м'яч розмір 5",
+      "price": 449,
+      "image": "https://via.placeholder.com/200x200?text=М'яч",
+      "category": "Спорт"
+    },
+    {
+      "id": 7,
+      "name": "Настільна гра Монополія",
+      "description": "Класична настільна гра для всієї родини",
+      "price": 699,
+      "image": "https://via.placeholder.com/200x200?text=Монополія",
+      "category": "Настільні ігри"
+    },
+    {
+      "id": 8,
+      "name": "Робот-трансформер",
+      "description": "Трансформер що перетворюється на машинку",
+      "price": 849,
+      "image": "https://via.placeholder.com/200x200?text=Робот",
+      "category": "Роботи"
+    }
+  ]
+}

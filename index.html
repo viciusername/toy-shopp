@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Toy Shopp - Ваш улюблений інтернет-магазин іграшок">
+    <meta name="theme-color" content="#667eea">
+    <title>Toy Shopp - Інтернет-магазин іграшок</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>🧸 Toy Shopp</h1>
+                    <p class="tagline">Ваш улюблений магазин іграшок</p>
+                </div>
+                <div class="cart-icon">
+                    <button id="cart-btn" onclick="toggleCart()">
+                        🛒 Кошик (<span id="cart-count">0</span>)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Кошик</h2>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart">Кошик порожній</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Разом:</strong>
+                <span id="cart-total">0 грн</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Оформити замовлення</button>
+        </div>
+    </div>
+
+    <main class="container">
+        <section class="products">
+            <h2>Каталог товарів</h2>
+            <div id="product-grid" class="product-grid">
+                <div class="loading">Завантаження товарів...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Toy Shopp. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
