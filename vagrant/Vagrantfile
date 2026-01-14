@@ -1,0 +1,27 @@
+Vagrant.configure("2") do |config|
+  # Ubuntu Linux
+  config.vm.box = "ubuntu/jammy64"
+config.vm.boot_timeout = 600
+
+  # Синхронизация всей папки проекта
+  config.vm.synced_folder "..", "/vagrant"
+
+  # Настройки VirtualBox
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 2048
+    vb.cpus = 2
+  end
+
+  # Установка .NET SDK
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt update
+    sudo apt install -y wget apt-transport-https
+
+    wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    sudo apt update
+    sudo apt install -y dotnet-sdk-8.0
+
+    dotnet --version
+  SHELL
+end

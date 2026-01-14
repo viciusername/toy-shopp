@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Реєстрація";
+}
+<h2>Реєстрація</h2>
+<form method="post">
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" required />
+        @Html.ValidationMessage("Email")
+    </div>
+    <div class="mb-3">
+        <label>Ім'я</label>
+        <input type="text" name="name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Пароль</label>
+        <input type="password" name="password" class="form-control" required />
+    </div>
+    <button class="btn btn-primary">Зареєструватися</button>
+    <a href="/User/Login" class="btn btn-link">Вже є акаунт?</a>
+</form>

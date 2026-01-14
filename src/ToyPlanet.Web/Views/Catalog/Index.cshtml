@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "Каталог товарів";
+}
+<div class="text-center mb-4">
+    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjNiaGNvenVxejR6ZGdrNmxycGo4emRnM2lrbmI0bnh4Z3Y2emJsMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DuQM1OeAP4poXTJTKa/giphy.gif" alt="catalog gif" style="max-width:300px; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px #e75480; margin-bottom:24px;" />
+    <div style="max-width:600px; margin: 0 auto; background:#fff6fa; border-radius:12px; padding:18px; box-shadow:0 2px 8px #e75480; font-size:1.1rem;">
+        <p>На разі каталог розширюється адже на території України дуже мало світла, для контакту з нами залишайте відгук або запитання в поштову скриньку сайту — <a href="mailto:gumimigu8@gmail.com">gumimigu8@gmail.com</a></p>
+    </div>
+</div>
+<h2>Каталог товарів</h2>
+<div class="row">
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/1">
+            <img src="/images/pony1.png" class="img-fluid" alt="Пони 1">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 1</h5>
+            <p>Чарівна пастельна поні з м'якою гривою. Ідеальна для колекції!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 1990 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="1" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/2">
+            <img src="/images/pony2.png" class="img-fluid" alt="Пони 2">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 2</h5>
+            <p>Пастельна поні з блискучою гривою і хвостом. Улюблениця дітей!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 2490 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="2" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/3">
+            <img src="/images/pony3.png" class="img-fluid" alt="Пони 3">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 3</h5>
+            <p>Яскрава поні з унікальним забарвленням. Чудовий подарунок для колекціонера!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 2290 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="3" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/4">
+            <img src="/images/pony4.png" class="img-fluid" alt="Пони 4">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 4</h5>
+            <p>Поні із золотистою гривою та добрим поглядом. Для найменших!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 2590 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="4" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/5">
+            <img src="/images/pony5.png" class="img-fluid" alt="Пони 5">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 5</h5>
+            <p>Ексклюзивна поні з райдужною гривою. Обмежена серія!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 2990 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="5" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4" >
+        <a href="/Catalog/Details/6">
+            <img src="/images/pony6.png" class="img-fluid" alt="Пони 6">
+        </a>
+        <div class="card p-2 mt-2 text-center">
+            <h5 style="color:#e75480;">Поні 6</h5>
+            <p>Найрідкісніша поні в колекції ToyPlanet. Мрія кожної дитини!</p>
+            <div style="font-weight:bold; color:#a64ca6;">Ціна: 3990 ₴</div>
+            <form method="post" action="/Cart/Add">
+                <input type="hidden" name="id" value="6" />
+                <button class="btn btn-primary mt-2">До кошика</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+@model ToyPlanet.Web.Controllers.SearchViewModel
+
+@{
+    ViewData["Title"] = "Результати пошуку";
+}
+
+<div class="container mt-5">
+    <h2 style="color: #e75480; margin-bottom: 20px;">📊 Результати пошуку замовлень</h2>
+    
+    <!-- Кнопка повернення до форми пошуку -->
+    <div class="mb-4">
+        <a href="/Search/Index" class="btn btn-outline-primary">← Нова пошук</a>
+        <span class="badge bg-info ms-2">Знайдено: @(Model?.Results?.Count ?? 0)</span>
+    </div>
+
+    @if (Model?.Results != null && Model.Results.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered">
+                <thead style="background: linear-gradient(135deg, #e75480 0%, #6a5acd 100%); color: white; position: sticky; top: 0;">
+                    <tr>
+                        <th style="width: 15%;">Замовлення</th>
+                        <th style="width: 15%;">Дата</th>
+                        <th style="width: 20%;">Email</th>
+                        <th style="width: 30%;">Товари</th>
+                        <th style="width: 10%;">Кіл-сть</th>
+                        <th style="width: 10%;">Сума</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Results)
+                    {
+                        <tr class="align-middle">
+                            <td>
+                                <a href="/Orders/Details/@order.Id" class="text-decoration-none fw-bold" style="color: #e75480;">
+                                    #@order.Id.ToString("N").Substring(0, 8)...
+                                </a>
+                            </td>
+                            <td>
+                                <small>@order.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</small>
+                                <br />
+                                <small class="text-muted">@order.CreatedAt.ToLocalTime().ToString("HH:mm")</small>
+                            </td>
+                            <td>
+                                <strong>@order.UserEmail</strong>
+                            </td>
+                            <td>
+                                @if (order.Items != null && order.Items.Any())
+                                {
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach (var item in order.Items.Take(3))
+                                        {
+                                            <li style="border-bottom: 1px solid #eee; padding: 5px 0;">
+                                                <strong>@item.Toy?.Name</strong>
+                                                <br />
+                                                <small class="text-muted">Кіл-сть: @item.Quantity | Ціна: @item.Price ₴</small>
+                                            </li>
+                                        }
+                                        @if (order.Items.Count > 3)
+                                        {
+                                            <li style="padding: 5px 0;">
+                                                <em class="text-muted">... та ще @(order.Items.Count - 3) товар(ів)</em>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">@(order.Items?.Count ?? 0)</span>
+                            </td>
+                            <td>
+                                <strong style="color: #e75480; font-size: 1.1rem;">@order.Total ₴</strong>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 p-3" style="background: #f8f9fa; border-radius: 5px;">
+            <strong>📈 Статистика:</strong>
+            <ul class="list-unstyled mt-2">
+                <li>✅ Всього замовлень: <strong style="color: #e75480;">@Model.Results.Count</strong></li>
+                <li>💰 Загальна сума: <strong style="color: #4caf50;">@Model.Results.Sum(o => o.Total) ₴</strong></li>
+                <li>📦 Всього товарів: <strong>@Model.Results.Sum(o => o.Items?.Count ?? 0)</strong></li>
+                <li>💳 Середня вартість замовлення: <strong>@(Model.Results.Any() ? (Model.Results.Sum(o => o.Total) / Model.Results.Count).ToString("F2") : "0") ₴</strong></li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" style="background: #fff3cd; border: 1px solid #ffc107; border-left: 4px solid #ffc107;">
+            <h5 class="alert-heading">⚠️ Замовлення не знайдені</h5>
+            <p>За вибраними критеріями пошуку замовлень не знайдено.</p>
+            <hr>
+            <a href="/Search/Index" class="btn btn-sm btn-warning">Спробувати іншу пошук</a>
+        </div>
+    }
+
+    <div class="mt-5">
+        <a href="/Search/Index" class="btn btn-outline-primary">← Спробувати іншу пошук</a>
+        <a href="/" class="btn btn-outline-secondary">← На головну</a>
+    </div>
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(231, 84, 128, 0.08) !important;
+    }
+    
+    tbody tr {
+        transition: all 0.3s ease;
+    }
+    
+    .badge {
+        padding: 0.35em 0.65em;
+        font-size: 0.85em;
+    }
+</style>

@@ -1,0 +1,66 @@
+@model IEnumerable<ToyPlanet.Core.Category>
+
+@{
+    ViewData["Title"] = "Категорії Поні 🦄";
+}
+
+<div class="container mt-5">
+    <h2 style="color: #e75480; margin-bottom: 30px;">🦄 Поні іграшки з усього світу 🌍</h2>
+    <p class="lead text-muted">Найбільша колекція поні персонажів та легендарних фігурок</p>
+    
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0" style="border-left: 4px solid #e75480;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: #6a5acd;">@category.Name</h5>
+                            <p class="card-text text-muted">
+                                @if (!string.IsNullOrEmpty(category.Description))
+                                {
+                                    @category.Description
+                                }
+                                else
+                                {
+                                    <em>Опис недоступний</em>
+                                }
+                            </p>
+                            @if (category.Toys != null && category.Toys.Count > 0)
+                            {
+                                <small class="text-info">🎁 @category.Toys.Count поні в категорії</small>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-sm" style="background: #e75480; color: white;">
+                                Переглянути → 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mt-4">
+            <strong>⚠️ Категорії не знайдені</strong>
+        </div>
+    }
+    
+    <div class="mt-4">
+        <a href="/" class="btn btn-outline-secondary">← Назад на головну</a>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(231, 84, 128, 0.15) !important;
+    }
+</style>

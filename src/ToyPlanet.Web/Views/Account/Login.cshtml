@@ -1,0 +1,49 @@
+@model ToyPlanet.Web.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Вхід";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 600px;">
+    <div class="card shadow p-5" style="width: 100%; max-width: 400px; border-radius: 1rem; border: 2px solid #e75480;">
+        <h2 class="text-center mb-4" style="color: #e75480;">Вхід</h2>
+        
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label">Ім'я користувача</label>
+                <input asp-for="Username" class="form-control" placeholder="Введіть ім'я користувача" style="border-radius: 0.5rem; border: 1px solid #e75480;" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Пароль</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Введіть ваш пароль" style="border-radius: 0.5rem; border: 1px solid #e75480;" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            
+            <button type="submit" class="btn w-100" style="background: #e75480; color: #fff; border-radius: 0.5rem; font-weight: bold;">
+                Увійти
+            </button>
+        </form>
+        
+        <hr class="my-4">
+        
+        <div class="text-center mb-3">
+            <p class="text-muted">або</p>
+            <form method="post" action="/Account/LoginGoogle">
+                <button type="submit" class="btn btn-outline-danger w-100" style="border-radius: 0.5rem;">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 20px; margin-right: 10px;">
+                    Увійти через Google
+                </button>
+            </form>
+        </div>
+        
+        <p class="text-center">
+            Немаєте облікового запису? 
+            <a href="/Account/Register" style="color: #e75480; text-decoration: none; font-weight: bold;">Зареєструватися</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

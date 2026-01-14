@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Кошик";
+}
+@{
+    var cart = Context.Session.GetString("cart") ?? "";
+    var items = cart.Split(',', System.StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+    var catalog = new[] {
+        new { Id=1, Name="Поні 1", Price=1990 },
+        new { Id=2, Name="Поні 2", Price=2490 },
+        new { Id=3, Name="Поні 3", Price=2290 },
+        new { Id=4, Name="Поні 4", Price=2590 },
+        new { Id=5, Name="Поні 5", Price=2990 },
+        new { Id=6, Name="Поні 6", Price=3990 }
+    };
+    var cartItems = items.GroupBy(x=>x).Select(g => new { Id=g.Key, Count=g.Count() }).ToList();
+    var total = cartItems.Sum(ci => catalog.First(c=>c.Id==ci.Id).Price * ci.Count);
+}
+<h2>Кошик</h2>
+@if (!cartItems.Any()) {
+    <div class="alert alert-info mt-4">Ваш кошик порожній.</div>
+} else {
+    <table class="table table-bordered bg-white">
+        <thead><tr><th>Товар</th><th>Кількість</th><th>Ціна</th><th>Сума</th></tr></thead>
+        <tbody>
+        @foreach (var item in cartItems) {
+            var pony = catalog.First(c=>c.Id==item.Id);
+            <tr>
+                <td>@pony.Name</td>
+                <td>@item.Count</td>
+                <td>@pony.Price ₴</td>
+                <td>@(pony.Price * item.Count) ₴</td>
+                <td>
+                    <form method="post" asp-action="Remove" asp-controller="Cart" style="display:inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button class="btn btn-sm btn-danger" title="Видалити одну">✕</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot><tr><th colspan="3" class="text-end">Разом:</th><th>@total ₴</th></tr></tfoot>
+    </table>
+    <form method="post" action="/Cart/Checkout">
+        <button class="btn btn-success">Оформити замовлення</button>
+    </form>
+}
+<a href="/Catalog" class="btn btn-link mt-3">← Продовжити покупки</a>

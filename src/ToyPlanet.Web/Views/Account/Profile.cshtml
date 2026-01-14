@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Профіль";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 600px;">
+    <div class="card shadow p-5" style="width: 100%; max-width: 500px; border-radius: 1rem; border: 2px solid #e75480;">
+        <h2 class="text-center mb-4" style="color: #e75480;">Профіль</h2>
+        
+        <div class="mb-3">
+            <p><strong>Ім'я користувача:</strong> @User.Identity?.Name</p>
+            <p><strong>Email:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</p>
+            <p><strong>Телефон:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.MobilePhone)?.Value</p>
+        </div>
+        
+        <p class="text-muted">Тут будуть дані користувача (claims, email, phone).</p>
+        
+        <details class="mb-3">
+            <summary style="cursor: pointer; color: #e75480;">Всі Claims</summary>
+            <ul class="mt-2">
+                @foreach (var claim in User.Claims)
+                {
+                    <li><small>@claim.Type: @claim.Value</small></li>
+                }
+            </ul>
+        </details>
+        
+        <hr class="my-4">
+        
+        <div class="d-flex justify-content-between">
+            <a href="/" class="btn btn-outline-secondary" style="border-color: #e75480; color: #e75480;">На головну</a>
+            <form method="post" action="/Account/Logout" class="d-inline">
+                <button type="submit" class="btn" style="background: #e75480; color: #fff;">Вийти</button>
+            </form>
+        </div>
+    </div>
+</div>

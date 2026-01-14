@@ -1,0 +1,160 @@
+@model ToyPlanet.Web.Controllers.SearchViewModel
+
+@{
+    ViewData["Title"] = "Пошук Поні 🦄";
+}
+
+<div class="container mt-5">
+    <h2 style="color: #e75480; margin-bottom: 30px;">🔍 Розширений пошук замовлень Поні</h2>
+    
+    <div class="card shadow-lg border-0 mb-4" style="border-left: 4px solid #6a5acd;">
+        <div class="card-header" style="background: #f8f9fa; border-bottom: 2px solid #e75480;">
+            <h5 class="mb-0">🦄 Критерії пошуку</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="Results" class="needs-validation">
+                <div class="row">
+                    <!-- Пошук за датою -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" style="color: #6a5acd; font-weight: 500;">📅 Дата від</label>
+                        <input type="date" class="form-control" name="DateFrom" 
+                               value="@Model?.DateFrom?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" style="color: #6a5acd; font-weight: 500;">📅 Дата до</label>
+                        <input type="date" class="form-control" name="DateTo" 
+                               value="@Model?.DateTo?.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Пошук за іменем користувача (префікс/суфікс) -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" style="color: #6a5acd; font-weight: 500;">👤 Email покупця</label>
+                        <input type="text" class="form-control" name="UserName" placeholder="Введіть email (префікс або суфікс)"
+                               value="@Model?.UserName" />
+                        <small class="text-muted">Пошук за префіксом або суфіксом</small>
+                    </div>
+
+                    <!-- Пошук за категорією -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" style="color: #6a5acd; font-weight: 500;">🦄 Категорія Поні</label>
+                        <select class="form-control" name="CategoryId">
+                            <option value="">-- Всі категорії --</option>
+                            @if (Model?.Categories != null)
+                            {
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Id" 
+                                            selected="@(Model.CategoryId == category.Id ? "selected" : "")">
+                                        @category.Name
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Пошук за назвою Поні -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label" style="color: #6a5acd; font-weight: 500;">🌈 Назва Поні</label>
+                        <input type="text" class="form-control" name="ToyName" placeholder="Введіть назву поні (Rainbow Dash, Twilight, тощо)"
+                               value="@Model?.ToyName" />
+                        <small class="text-muted">Пошук за назвою (містить, починається, закінчується)</small>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-lg" style="background: #e75480; color: white; border-radius: 5px;">
+                            🔍 Пошукати Поні
+                        </button>
+                        <a href="/" class="btn btn-lg btn-outline-secondary">Очистити</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Результати пошуку -->
+    @if (Model?.Results != null && Model.Results.Any())
+    {
+        <div class="alert alert-success" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+            <strong>✅ Знайдено замовлень: @Model.Results.Count</strong>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered">
+                <thead style="background: linear-gradient(135deg, #e75480 0%, #6a5acd 100%); color: white;">
+                    <tr>
+                        <th>№ Замовлення</th>
+                        <th>Дата</th>
+                        <th>Email покупця</th>
+                        <th>Поні</th>
+                        <th>Кількість позицій</th>
+                        <th>Сума</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Results)
+                    {
+                        <tr>
+                            <td>
+                                <a href="/Orders/Details/@order.Id" class="text-decoration-none">
+                                    <strong>#@order.Id.ToString("N").Substring(0, 8)</strong>
+                                </a>
+                            </td>
+                            <td>@order.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@order.UserEmail</td>
+                            <td>
+                                @if (order.Items != null && order.Items.Any())
+                                {
+                                    <div class="small">
+                                        @foreach (var item in order.Items)
+                                        {
+                                            <div>• <strong>@item.Toy?.Name</strong> (@item.Quantity x @item.Price ₴)</div>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                            <td>@(order.Items?.Count ?? 0)</td>
+                            <td><strong style="color: #e75480;">@order.Total ₴</strong></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else if (Model?.Results != null && !Model.Results.Any())
+    {
+        <div class="alert alert-warning" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+            <strong>⚠️ Замовлення не знайдені</strong> за вибраними критеріями.
+        </div>
+    }
+    else if (Model == null || !Model.Results.Any())
+    {
+        <div class="alert alert-info">
+            <strong>💡 Підказка:</strong> Встановіть критерії пошуку вище та натисніть "Пошукати Поні".
+        </div>
+    }
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-outline-secondary">← На головну</a>
+    </div>
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(231, 84, 128, 0.08) !important;
+    }
+    
+    .form-control:focus {
+        border-color: #e75480 !important;
+        box-shadow: 0 0 0 0.2rem rgba(231, 84, 128, 0.25) !important;
+    }
+    
+    .form-label {
+        font-size: 0.95rem;
+    }
+</style>

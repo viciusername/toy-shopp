@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Профіль користувача";
+    var user = ViewBag.User as ToyPlanet.Core.User;
+    var orders = ViewBag.Orders as IEnumerable<ToyPlanet.Core.Order>;
+}
+<div class="card p-4 mt-4 mx-auto" style="max-width:500px;">
+    <h2 class="mb-3" style="color:#e75480;">Профіль</h2>
+    <p><b>Email:</b> @user?.Email</p>
+    <p><b>Ім'я:</b> @user?.Name</p>
+        <a asp-action="Edit" class="btn btn-outline-primary btn-sm mb-2">Редагувати профіль</a>
+    <h4 class="mt-4">Історія замовлень</h4>
+    @if (orders != null && orders.Any()) {
+        <ul>
+        @foreach (var order in orders) {
+            <li>Замовлення #@order.Id — @order.CreatedAt.ToShortDateString() — @order.Total ₴</li>
+        }
+        </ul>
+    } else {
+        <div class="alert alert-info">Замовлень ще немає.</div>
+    }
+    <form method="post" action="/User/Logout">
+        <button class="btn btn-danger mt-3">Вийти</button>
+    </form>
+</div>

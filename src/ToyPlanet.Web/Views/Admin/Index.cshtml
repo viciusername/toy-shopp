@@ -1,0 +1,86 @@
+@using ToyPlanet.Core
+@{
+    ViewBag.Title = "Панель адміністратора";
+    var toys = ViewBag.Toys as IEnumerable<Toy>;
+    var users = ViewBag.Users as IEnumerable<User>;
+}
+<div class="container mt-4">
+    <h2 style="color:#e75480;">Панель адміністратора</h2>
+    
+    <h3 class="mt-4">👥 Зареєстровані користувачі</h3>
+    @if (users != null && users.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead style="background:#e75480; color:white;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Ім'я</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var user in users)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.Email</td>
+                        <td>@user.Name</td>
+                        <td>
+                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post" style="display:inline">
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Видалити користувача?')">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Користувачів ще немає</div>
+    }
+
+    <h3 class="mt-5">🧸 Товари</h3>
+    <a asp-action="CreateToy" class="btn mb-3" style="background:#e75480; color:white;">Додати товар</a>
+    <a asp-action="CreateToy" class="btn mb-3" style="background:#e75480; color:white;">Додати товар</a>
+    @if (toys != null && toys.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead style="background:#6a5acd; color:white;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Назва</th>
+                        <th>Ціна</th>
+                        <th>Категорія</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var toy in toys)
+                {
+                    <tr>
+                        <td>@toy.Id</td>
+                        <td>@toy.Name</td>
+                        <td>@toy.Price ₴</td>
+                        <td>@toy.Category</td>
+                        <td>
+                            <a asp-action="EditToy" asp-route-id="@toy.Id" class="btn btn-primary btn-sm">Редагувати</a>
+                            <form asp-action="DeleteToy" asp-route-id="@toy.Id" method="post" style="display:inline">
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Видалити товар?')">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Товарів ще немає</div>
+    }
+</div>

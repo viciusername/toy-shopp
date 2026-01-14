@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ToyPlanet.Web</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ToyPlanet.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ToyPlanet.Web</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Категорії</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">🔍 Пошук</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <div class="d-flex align-items-center">
+                            <span class="me-3">Привіт, @User.Identity.Name!</span>
+                            <a href="/Account/Profile" class="btn btn-outline-primary btn-sm me-2">Профіль</a>
+                            <form method="post" action="/Account/Logout" class="d-inline">
+                                <button class="btn btn-outline-danger btn-sm" type="submit">Вийти</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="/Account/Login" class="btn btn-primary">Увійти</a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="container text-center mb-3">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGJodmRlbG5wZzc5YWZyMDh0dDR5dXE4bGc1MGg1d3RsemFyNWwwayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fNlp1N7Iqot3O/giphy.gif" alt="funny pony gif" style="max-width:300px; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px #e75480;" />
+        <div class="about-company mt-4" style="max-width:700px; margin: 0 auto; text-align:left; background:#fff6fa; border-radius:12px; padding:24px; box-shadow:0 2px 8px #e75480; font-size:1.1rem;">
+            <h3 style="color:#e75480; text-align:center;">Про компанію ToyPlanet</h3>
+            <p>ToyPlanet — це онлайн-магазин іграшок, створений з любов’ю до колекціонування та дитячої радості. Історія проєкту розпочалася у місті Київ, де засновниця магазину понад 20 років займається колекціонуванням іграшок, зокрема фігурок, ляльок та тематичних серій для поціновувачів.</p>
+            <p>З роками хобі переросло у глибоке розуміння потреб як колекціонерів, так і дітей, адже іграшка — це не просто товар, а джерело емоцій, спогадів та натхнення. Саме тому було прийнято рішення відкрити власний бізнес та об’єднати якісні, оригінальні іграшки в одному просторі — ToyPlanet.</p>
+            <p>Ми торгуємо по всій Україні, пропонуючи широкий асортимент товарів:</p>
+            <ul>
+                <li>іграшки для дітей різного віку;</li>
+                <li>колекційні фігурки та тематичні серії;</li>
+                <li>продукцію, що поєднує естетичну цінність і високу якість.</li>
+            </ul>
+            <p>Основною метою ToyPlanet є створення надійного та зручного магазину, де кожен клієнт — незалежно від віку — може знайти щось особливе для себе або на подарунок. Ми прагнемо поєднати сучасні технології, зручний сервіс та щиру любов до справи, щоб кожна покупка приносила радість.</p>
+            <p>ToyPlanet — це більше, ніж магазин. Це місце, де колекції оживають, а дитячі мрії стають реальністю.</p>
+            <div style="text-align:center; font-size:1.5rem; color:#a64ca6;">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</div>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ToyPlanet.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ToyPlanet.Core</id>
+    <version>1.0.0</version>
+    <authors>ToyPlanet Team</authors>
+    <owners>ToyPlanet Team</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Библиотека бизнес-логики для магазина игрушек ToyPlanet.</description>
+    <tags>toys shop core business</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>

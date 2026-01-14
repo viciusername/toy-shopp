@@ -1,0 +1,92 @@
+@model ToyPlanet.Core.Category
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Деталі категорії";
+}
+
+<div class="container mt-5">
+    @if (Model != null)
+    {
+        <div class="card shadow-lg border-0 mb-4" style="border-left: 6px solid #e75480;">
+            <div class="card-header" style="background: linear-gradient(135deg, #e75480 0%, #6a5acd 100%); color: white;">
+                <h2 class="mb-0">@Model.Name</h2>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="alert alert-light border-left-4" style="border-left: 4px solid #6a5acd;">
+                        <p><strong>Опис категорії:</strong></p>
+                        <p>@Model.Description</p>
+                    </div>
+                }
+                
+                <div class="mt-4">
+                    <h4 style="color: #e75480;">🦄 Поні в цій категорії</h4>
+                    
+                    @if (Model.Toys != null && Model.Toys.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead style="background: #f8f9fa;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Назва Поні</th>
+                                        <th>Ціна (₴)</th>
+                                        <th>Дія</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var toy in Model.Toys)
+                                    {
+                                        <tr>
+                                            <td>@toy.Id</td>
+                                            <td><strong>@toy.Name</strong></td>
+                                            <td><span style="color: #e75480; font-weight: bold;">@toy.Price</span> ₴</td>
+                                            <td>
+                                                <a href="/Catalog/Details/@toy.Id" class="btn btn-sm btn-info">
+                                                    Деталі 🦄
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <em>Поні у цій категорії відсутні</em>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/Categories/Index" class="btn btn-outline-secondary">← До категорій</a>
+            <a href="/" class="btn btn-outline-primary">← На головну</a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <h4>Категорія не знайдена</h4>
+            <a href="/Categories/Index" class="btn btn-primary">Повернутися до списку</a>
+        </div>
+    }
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(231, 84, 128, 0.05);
+    }
+    
+    .btn {
+        transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateX(2px);
+    }
+</style>

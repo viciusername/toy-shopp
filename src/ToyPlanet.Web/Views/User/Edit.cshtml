@@ -1,0 +1,21 @@
+@model ToyPlanet.Core.User
+@{
+    ViewBag.Title = "Редагувати профіль";
+}
+<h2>Редагувати профіль</h2>
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Ім'я</label>
+        <input type="text" class="form-control" id="name" name="name" value="@Model.Name" required />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" name="email" value="@Model.Email" required />
+        @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["Email"].Errors[0].ErrorMessage</div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="Profile" class="btn btn-secondary">Скасувати</a>
+</form>

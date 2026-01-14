@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Мои заказы";
+}
+<h2>Мої замовлення</h2>
+@{
+    var orders = ViewBag.Orders as IEnumerable<ToyPlanet.Core.Order>;
+}
+<div class="mt-3">
+    @if (orders != null && orders.Any())
+    {
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@order.Total ₽</td>
+                    <td><a asp-action="Details" asp-route-id="@order.Id" class="btn btn-outline-primary btn-sm">Детали</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">Заказов поки нема.</div>
+    }
+</div>
