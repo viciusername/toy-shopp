@@ -19,8 +19,8 @@ namespace ToyPlanet.Client.ViewModels
         public LoginViewModel()
         {
             _identityServerService = new IdentityServerService();
-            LoginCommand = new RelayCommand(async () => await LoginAsync());
-            RegisterCommand = new RelayCommand(async () => await RegisterAsync());
+            LoginCommand = new AsyncRelayCommand(LoginAsync);
+            RegisterCommand = new AsyncRelayCommand(RegisterAsync);
         }
 
         /// <summary>
@@ -164,11 +164,7 @@ namespace ToyPlanet.Client.ViewModels
         private readonly Func<bool> _canExecute;
         private bool _isExecuting;
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
+        public event EventHandler CanExecuteChanged;
 
         public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute = null)
         {
@@ -190,6 +186,7 @@ namespace ToyPlanet.Client.ViewModels
                 finally
                 {
                     _isExecuting = false;
+                    CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

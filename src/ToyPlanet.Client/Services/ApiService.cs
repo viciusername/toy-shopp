@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Text.Json;
 
 namespace ToyPlanet.Client.Services
 {
@@ -155,10 +155,10 @@ namespace ToyPlanet.Client.Services
         /// </summary>
         private void AddAuthorizationHeader(HttpRequestMessage request)
         {
-            var token = _authService.GetAccessToken();
+            var token = _authService?.GetAccessToken();
             if (!string.IsNullOrEmpty(token))
             {
-                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
         }
     }

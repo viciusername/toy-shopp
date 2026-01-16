@@ -8,13 +8,28 @@ namespace ToyPlanet.Client.ViewModels
     /// <summary>
     /// Модель для відображення даних про товари
     /// </summary>
-    public class ToyItem
+    public class ToyItem : IEquatable<ToyItem>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Category { get; set; }
         public int Quantity { get; set; } = 1;
+
+        public bool Equals(ToyItem other)
+        {
+            return other != null && this.Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ToyItem);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 
     /// <summary>
@@ -95,9 +110,9 @@ namespace ToyPlanet.Client.ViewModels
         /// </summary>
         private void FilterToys()
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (Toys == null || string.IsNullOrWhiteSpace(SearchText))
             {
-                LoadToysAsync();
+                _ = LoadToysAsync();
                 return;
             }
 
